@@ -56,9 +56,7 @@ const ContentForm = ({ addNewArticle }) => {
 
   const validateTags = tags => {
     const tagsArray = tags.split(",");
-    return (
-      tagsArray.filter(tag => !!tag.trim()).length >= 2 || invalidTagsError
-    );
+    return tagsArray.filter(tag => !!tag.trim()).length < 2 && invalidTagsError;
   };
 
   const checkForDublicates = tags => {
@@ -67,11 +65,12 @@ const ContentForm = ({ addNewArticle }) => {
       (tag, index) =>
         sortedTags[index + 1] && tag.trim() === sortedTags[index + 1].trim()
     );
-    return !dublicated.length
-      ? true
-      : `Вы ввели один или более  повторяющихся тегов: ${dublicated
-          .reverse()
-          .join(",")}`;
+    return (
+      dublicated.length &&
+      `Вы ввели один или более  повторяющихся тегов: ${dublicated
+        .reverse()
+        .join(",")}`
+    );
   };
 
   return (
@@ -116,7 +115,8 @@ const ContentForm = ({ addNewArticle }) => {
           name="tags"
           placeholder="тег, еще тег"
           ref={register({
-            validate: tags => validateTags(tags) && checkForDublicates(tags)
+            validate: tags =>
+              validateTags(tags) || checkForDublicates(tags) || true
           })}
         />
         {errors.tags && (
