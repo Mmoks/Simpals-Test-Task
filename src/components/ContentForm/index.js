@@ -69,7 +69,7 @@ const ContentForm = ({ addNewArticle }) => {
     );
     return !dublicated.length
       ? true
-      : `Вы ввели один или более  повторящихся тегов: ${dublicated
+      : `Вы ввели один или более  повторяющихся тегов: ${dublicated
           .reverse()
           .join(",")}`;
   };
